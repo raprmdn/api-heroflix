@@ -12,7 +12,8 @@ class LogoutController extends Controller
         $request->user()->tokens()->where('id', $request->user()->currentAccessToken()->id)->delete();
 
         return response()->json([
-            'message' => "You're logged out."
+            'status' => true,
+            'message' => "You're logged out.",
         ]);
     }
 }

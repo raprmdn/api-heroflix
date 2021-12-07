@@ -10,11 +10,13 @@ class RegisterController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $request->validate([
+        $validation = \Validator::make($request->all(), [
             'name' => ['required'],
             'email' => ['required', 'email' , 'unique:users'],
             'password' => ['required', 'min:5', 'confirmed'],
         ]);
+
+        if ($validation->fails()) return response()->json(['error' => $validation->errors()], 422);
 
         User::create([
             'name' => $request->name,
