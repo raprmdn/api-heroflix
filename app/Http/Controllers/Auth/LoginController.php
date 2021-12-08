@@ -12,17 +12,21 @@ class LoginController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-            'device_name' => 'required',
+        $validation = \Validator::make($request->all() ,[
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+            'device_name' => ['required'],
         ]);
+
+        if ($validation->fails()) return response()->json(['errors' => $validation->errors()], 422);
 
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+            return response()->json([
+                'errors' => [
+                    'email' => ['The provided credentials are incorrect.'],
+                ],
             ]);
         }
 

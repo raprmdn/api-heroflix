@@ -16,7 +16,7 @@ class RegisterController extends Controller
             'password' => ['required', 'min:5', 'confirmed'],
         ]);
 
-        if ($validation->fails()) return response()->json(['error' => $validation->errors()], 422);
+        if ($validation->fails()) return response()->json(['errors' => $validation->errors()], 422);
 
         User::create([
             'name' => $request->name,
