@@ -37,9 +37,7 @@ class MoviesController extends Controller
 
     public function show(Movie $movie)
     {
-        return response()->json([
-            new MovieResource($movie)
-        ]);
+        return response()->json(new MovieResource($movie));
     }
 
     public function update(Request $request, Movie $movie)
